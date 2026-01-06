@@ -1,0 +1,29 @@
+
+{
+  "Culture": "en",
+  "Texts": {
+    "AppName": "BookStore",
+    "Menu:Home": "Home",
+    "Menu:Books": "Books",
+    "NewBook": "New Book",
+    "Actions": "Actions",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "Name": "Book Name",
+    "Type": "Category",
+    "Price": "Price",
+    "PublishDate": "Publish Date",
+    "AreYouSure": "Are you sure?",
+    "AreYouSureConfirmation": "This book will be deleted. Do you confirm?",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework.",
+    "Welcome": "Welcome",
+    "Enum:BookType.0": "Adventure",
+    "Enum:BookType.1": "Biography",
+    "Enum:BookType.2": "Dystopia",
+    "Enum:BookType.3": "Fantastic",
+    "Enum:BookType.4": "Horror",
+    "Enum:BookType.5": "Science",
+    "Enum:BookType.6": "Science Fiction",
+    "Enum:BookType.7": "Poetry"
+  }
+}
