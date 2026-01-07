@@ -3,12 +3,12 @@ import { Environment } from '@abp/ng.core';
 const baseUrl = 'http://localhost:4200';
 
 const oAuthConfig = {
-  issuer: 'https://localhost:44335/',
+  issuer: 'http://localhost:44388/', // Port 44388 yapıldı ve http'ye çekildi
   redirectUri: baseUrl,
   clientId: 'BookStore_App',
   responseType: 'code',
   scope: 'offline_access BookStore',
-  requireHttps: true,
+  requireHttps: false, // Docker üzerinde SSL kurulu olmadığı için false olmalı
 };
 
 export const environment = {
@@ -20,11 +20,11 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://localhost:44335',
+      url: 'http://localhost:44388', // Burası da güncellendi
       rootNamespace: 'Acme.BookStore',
     },
     AbpAccountPublic: {
-      url: oAuthConfig.issuer,
+      url: 'http://localhost:44388', // Burası da güncellendi
       rootNamespace: 'AbpAccountPublic',
     },
   },

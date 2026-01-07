@@ -1,15 +1,5 @@
-FROM node:20-alpine AS build
-
-WORKDIR /app
-COPY package*.json /app/
-
-RUN yarn
-COPY . /app
-
-RUN yarn build:prod
-
 FROM nginx:alpine
-COPY dynamic-env.json /usr/share/nginx/html
-COPY nginx.conf  /etc/nginx/conf.d/default.conf
-
-COPY --from=build /app/dist/BookStore/browser /usr/share/nginx/html
+# Bilgisayarında yeni oluşan dosyaları Nginx içine kopyalıyoruz
+COPY dist/BookStore/browser /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

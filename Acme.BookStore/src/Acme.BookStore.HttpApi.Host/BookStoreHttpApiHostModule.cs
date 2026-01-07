@@ -31,7 +31,7 @@ using Volo.Abp.Security.Claims;
 using Volo.Abp.Studio;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
-using Volo.Abp.Timing; // SAAT AYARI İÇİN GEREKLİ
+using Volo.Abp.Timing;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 
@@ -86,12 +86,10 @@ public class BookStoreHttpApiHostModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        // --- POSTGRESQL TARİH HATASINI ÇÖZEN KRİTİK AYAR ---
         Configure<AbpClockOptions>(options =>
         {
             options.Kind = DateTimeKind.Utc;
         });
-        // --------------------------------------------------
 
         if (!configuration.GetValue<bool>("App:DisablePII"))
         {
@@ -168,18 +166,12 @@ public class BookStoreHttpApiHostModule : AbpModule
 
     private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
     {
-        var hostingEnvironment = context.Services.GetHostingEnvironment();
-
-        if (hostingEnvironment.IsDevelopment())
+        // Docker uyumluluğu için fiziksel dosya yolları kaldırıldı. 
+        // Uygulama artık gömülü kaynakları kullanacak.
+        Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.ReplaceEmbeddedByPhysical<BookStoreDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Acme.BookStore.Domain.Shared"));
-                options.FileSets.ReplaceEmbeddedByPhysical<BookStoreDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Acme.BookStore.Domain"));
-                options.FileSets.ReplaceEmbeddedByPhysical<BookStoreApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Acme.BookStore.Application.Contracts"));
-                options.FileSets.ReplaceEmbeddedByPhysical<BookStoreApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Acme.BookStore.Application"));
-            });
-        }
+            options.FileSets.AddEmbedded<BookStoreHttpApiHostModule>();
+        });
     }
 
     private void ConfigureConventionalControllers()

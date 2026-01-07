@@ -1,35 +1,22 @@
-import { Environment } from '@abp/ng.core';
-
-const baseUrl = 'http://localhost:4200';
-
-const oAuthConfig = {
-  issuer: 'https://localhost:44335/',
-  redirectUri: baseUrl,
-  clientId: 'BookStore_App',
-  responseType: 'code',
-  scope: 'offline_access BookStore',
-  requireHttps: true,
-};
-
 export const environment = {
   production: true,
   application: {
-    baseUrl,
+    baseUrl: 'http://localhost:4200/',
     name: 'BookStore',
+    logoUrl: '',
   },
-  oAuthConfig,
+  oAuthConfig: {
+    issuer: 'http://localhost:44388/',  // BURASI 44388 OLMALI
+    redirectUri: 'http://localhost:4200/',
+    clientId: 'BookStore_App',
+    responseType: 'code',
+    scope: 'offline_access BookStore',
+    showDebugInformation: true,
+  },
   apis: {
     default: {
-      url: 'https://localhost:44335',
+      url: 'http://localhost:44388',     // BURASI 44388 OLMALI
       rootNamespace: 'Acme.BookStore',
     },
-    AbpAccountPublic: {
-      url: oAuthConfig.issuer,
-      rootNamespace: 'AbpAccountPublic',
-    },
   },
-  remoteEnv: {
-    url: '/getEnvConfig',
-    mergeStrategy: 'deepmerge'
-  }
-} as Environment;
+};

@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: bookstore_db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=BookStore
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: src/Acme.BookStore.HttpApi.Host/Dockerfile
+    container_name: bookstore_api
+    depends_on:
+      - db
+    ports:
+      - "44388:80"
+    environment:
+      - ConnectionStrings__Default=Host=db;Port=5432;Database=BookStore;Username=admin;Password=password
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  frontend:
+    build:
+      context: ./angular
+      dockerfile: Dockerfile
+    container_name: bookstore_angular
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
